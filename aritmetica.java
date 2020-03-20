@@ -1,5 +1,3 @@
-package com.example.practica01;
-
 public class aritmetica {
     //Atributos
     private int n1;
