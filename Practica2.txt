@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".MainActivity">
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        tools:layout_editor_absoluteX="1dp"
+        tools:layout_editor_absoluteY="1dp">
+
+        <CheckBox
+            android:id="@+id/checkBox1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentTop="true"
+            android:text="Pizza" />
+
+        <CheckBox
+            android:id="@+id/checkBox2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:layout_toRightOf="@+id/checkBox1"
+            android:text="Café" />
+
+        <CheckBox
+            android:id="@+id/checkBox3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:layout_toRightOf="@+id/checkBox2"
+            android:text="Hamburguesa" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        tools:layout_editor_absoluteX="1dp"
+        tools:layout_editor_absoluteY="1dp">
+
+        <Button
+            android:id="@+id/button1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="50dp"
+            android:layout_marginLeft="50dp"
+            android:layout_below="@+id/checkBox2"
+            android:layout_toLeftOf="@+id/checkBox3"
+            android:text="Ordenar"
+            tools:layout_editor_absoluteX="72dp"
+            tools:layout_editor_absoluteY="69dp" />
+    </LinearLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>
+
+
+/***********************************************Clases*******************************************/
+MAINACTIVITY
+
+import androidx.appcompat.app.AppCompatActivity;
+import android.os.Bundle;
+import android.view.View;
+import android.view.View.OnClickListener;
+import android.widget.*;
+
+
+public class MainActivity extends AppCompatActivity {
+    CheckBox pizza, cafe, hamb;
+    Button btnOrden;
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main);
+        addListenerOnButtonClick();
+    }
+
+    private void addListenerOnButtonClick(){
+        pizza = (CheckBox)findViewById(R.id.checkBox1);
+        cafe = (CheckBox)findViewById(R.id.checkBox2);
+        hamb = (CheckBox)findViewById(R.id.checkBox3);
+        btnOrden = (Button)findViewById(R.id.button1);
+
+        btnOrden.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                int total = 0;
+                StringBuilder result = new StringBuilder();
+                result.append("Productos seleccionados");
+
+                if(pizza.isChecked()){
+                    result.append("\nPizza $50");
+                    total+=50;
+                }
+
+                if(cafe.isChecked()){
+                    result.append("\nCafe $25");
+                    total+=25;
+                }
+
+                if(hamb.isChecked()){
+                    result.append("\nHamburguesa $45");
+                    total+=45;
+                }
+
+                result.append("\nTotal: "+total+" pesos");
+                Toast.makeText(getApplicationContext(), result.toString(), Toast.LENGTH_LONG).show();
+            }
+        });
+    }
+}
