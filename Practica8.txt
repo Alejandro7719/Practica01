@@ -1,0 +1,153 @@
+============== ACTIVITY 1 ==============
+
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".MainActivity">
+
+
+    <LinearLayout
+        android:layout_width="409dp"
+        android:layout_height="729dp"
+        android:orientation="vertical"
+        tools:layout_editor_absoluteX="1dp"
+        tools:layout_editor_absoluteY="1dp">
+
+        <Button
+            android:id="@+id/Button01"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/TextView01"
+            android:layout_alignParentLeft="true"
+            android:text="Segunda Activity"
+            tools:layout_editor_absoluteX="16dp"
+            tools:layout_editor_absoluteY="81dp" />
+
+        <TextView
+            android:id="@+id/TextView01"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignLeft="@+id/Button01"
+            android:layout_alignParentTop="true"
+            android:minHeight="60dip"
+            android:text="Primer Activity"
+            android:textSize="20sp"
+            />
+
+    </LinearLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>
+
+
+
+============= CLASE ACTIVITY 1 =============
+import androidx.appcompat.app.AppCompatActivity;
+import android.os.Bundle;
+import android.content.Intent;
+import android.view.View;
+import android.view.View.OnClickListener;
+import android.widget.Button;
+import android.widget.Toast;
+
+
+public class MainActivity extends AppCompatActivity {
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main);
+        Button button1 = (Button) findViewById(R.id.Button01);
+        button1.setOnClickListener(new OnClickListener() {
+            public void onClick(View view) {
+                Intent i = new Intent(getApplicationContext(),
+                        MainActivityDos.class);
+                i.putExtra("Valor1", "Android");
+                i.putExtra("Valor2", "Facil");
+                startActivity(i);
+            }
+        });
+
+    }
+}
+
+
+
+
+**************** ACTIVITY 2 **************************
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".MainActivityDos">
+
+    <LinearLayout
+        android:layout_width="409dp"
+        android:layout_height="729dp"
+        android:orientation="vertical"
+        tools:layout_editor_absoluteX="1dp"
+        tools:layout_editor_absoluteY="1dp">
+
+        <Button
+            android:id="@+id/Button01"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/TextView01"
+            android:layout_alignParentLeft="true"
+            android:text="Primera Activity"
+            tools:layout_editor_absoluteX="132dp"
+            tools:layout_editor_absoluteY="111dp" />
+
+        <TextView
+            android:id="@+id/TextView01"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignLeft="@+id/Button01"
+            android:layout_alignParentTop="true"
+            android:minHeight="60dip"
+            android:text="Segunda Activity"
+            android:textSize="20sp"
+            />
+    </LinearLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>
+
+
+*************** CLASE ACTIVITY 2 **************************
+import androidx.appcompat.app.AppCompatActivity;
+import android.os.Bundle;
+import android.content.Intent;
+import android.view.View;
+import android.view.View.OnClickListener;
+import android.widget.Button;
+import android.widget.TextView;
+import android.widget.Toast;
+
+import static com.example.practica08.R.layout.activity_main_dos;
+
+public class MainActivityDos extends AppCompatActivity {
+
+    @Override
+    public void onCreate(Bundle bundle) {
+        super.onCreate(bundle);
+        TextView tv = new TextView(this);
+        tv.setText("Actividad Dos");
+        setContentView(activity_main_dos);
+        Bundle extras = getIntent().getExtras();
+        String valor1 = extras.getString("Valor1");
+        String valor2 = extras.getString("Valor2");
+        Toast.makeText(getApplicationContext(), "Valores:\n Valor uno: " +
+                valor1 +
+                "\n Valor dos: " + valor2, Toast.LENGTH_LONG).show();
+        Button button1 = (Button) findViewById(R.id.Button01);
+        button1.setOnClickListener(new OnClickListener() {
+            public void onClick(View view) {
+                Intent i = new Intent(getApplicationContext(),
+                        MainActivity.class);
+                startActivity(i);
+            }
+        });
+    }
+}

@@ -1,0 +1,296 @@
+============ ACTIVITY 1 =====================
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".MainActivity">
+    <TextView
+        android:id="@+id/textView2"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Nombre" />
+    <EditText
+        android:id="@+id/edtNombre"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:inputType="textPersonName"
+        android:text="" />
+    <TextView
+        android:id="@+id/textView3"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Edad" />
+    <Spinner
+        android:id="@+id/spnEdad"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+    <TextView
+        android:id="@+id/textView4"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Email" />
+    <EditText
+        android:id="@+id/edtEmail"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:inputType="textEmailAddress" />
+
+    <TextView
+        android:id="@+id/txtResultado"
+        android:layout_width="match_parent"
+        android:layout_height="47dp"
+        android:text="TextView" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="horizontal">
+        <Button
+            android:id="@+id/btnEnviar"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="Enviar" />
+        <Button
+            android:id="@+id/btnLimpiar"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="Limpiar" />
+    </LinearLayout>
+</LinearLayout>
+
+=============== CLASE ACTIVITY 1 =============================
+import androidx.appcompat.app.AppCompatActivity;
+import android.os.Bundle;
+import android.content.Intent;
+import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
+import android.widget.EditText;
+import android.widget.Button;
+import android.widget.Spinner;
+import android.widget.TextView;
+
+public class MainActivity extends AppCompatActivity {
+    public clsPersona usuario=new clsPersona();
+    String nombre;
+    String email;
+    int edad;
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main);
+
+        String edades[]={"10","20","30","40","50","60","70","80","90","100"};
+        Button btnEnviar=(Button)findViewById(R.id.btnEnviar);
+        Button btnLimpiar=(Button)findViewById(R.id.btnLimpiar);
+        final EditText edtNombre=(EditText)findViewById(R.id.edtNombre);
+        final EditText edtEmail=(EditText)findViewById(R.id.edtEmail);
+        final Spinner spnEdad=(Spinner)findViewById(R.id.spnEdad);
+        final TextView txtResultado=(TextView)findViewById(R.id.txtResultado);
+
+        spnEdad.setAdapter(new ArrayAdapter<String>(this,android.R.layout.simple_spinner_item,edades));
+        spnEdad.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener(){
+
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                edad=Integer.parseInt(parent.getItemAtPosition(position).toString());
+            }
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+            }
+        });
+
+        btnEnviar.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                nombre=edtNombre.getText().toString();
+                email=edtEmail.getText().toString();
+                usuario.setEdad(edad);
+                usuario.setMail(email);
+                usuario.setNombre(nombre);
+                txtResultado.setText(usuario.getDatos());
+                Intent intent = new Intent(MainActivity.this, Main2Activity.class);
+                intent.putExtra("usuario", usuario);
+                startActivity(intent);
+            }
+        });
+
+        btnLimpiar.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                edtEmail.setText("");
+                edtNombre.setText("");
+                spnEdad.setSelection(0);
+                edad = 0;
+                nombre="";
+                email="";
+                edtNombre.requestFocus();
+            }
+        });
+
+
+    }
+}
+
+
+
+
+************* ACTIVITY 2 *************************************************
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".Main2Activity" >
+
+    <TextView
+        android:id="@+id/txtDatos"
+        android:layout_width="match_parent"
+        android:layout_height="119dp"
+        android:text=""
+        android:textColor="#F44336"
+        android:textSize="24sp" />
+
+    <Button
+        android:id="@+id/btnVolver"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Volver" />
+</LinearLayout>
+
+************** CLASE ACTIVITY 2********************************************
+import androidx.appcompat.app.AppCompatActivity;
+import android.os.Bundle;
+import android.view.View;
+import android.widget.Button;
+import android.widget.TextView;
+import android.content.Intent;
+
+public class Main2Activity extends AppCompatActivity {
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main2);
+
+        Button btnVolver=(Button)findViewById(R.id.btnVolver);
+        TextView txtResultado=(TextView)findViewById(R.id.txtDatos);
+        clsPersona otro = (clsPersona)
+                getIntent().getExtras().getParcelable("usuario");
+        String nombre = otro.getNombre();
+        String mail = otro.getMail();
+        int edad = otro.getEdad();
+        txtResultado.setText(otro.getDatos());
+        btnVolver.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent=new Intent(Main2Activity.this,MainActivity.class);
+                startActivity(intent);
+            }
+        });
+    }
+}
+
+
+
+
+
+
+//////////////// CLASE clsPersona /////////////////////////////////////
+import android.os.Parcelable;
+import android.os.Parcel;
+import java.util.ArrayList;
+
+public class clsPersona implements Parcelable {
+
+    private String mail;
+    private String nombre;
+    private int edad;
+    private ArrayList<clsPersona> amigos;
+
+    public clsPersona(String mail, String nombre, int edad) {
+        this.mail = mail;
+        this.nombre = nombre;
+        this.edad = edad;
+    }
+    public clsPersona(){
+        this.mail="";
+        this.nombre="";
+        this.edad=0;
+    }
+
+    public String getDatos(){
+        return (this.nombre+" "+String.valueOf(this.edad)+" "+this.mail);
+    }
+    public String getMail() {
+        return mail;
+    }
+    public void setMail(String mail) {
+        this.mail = mail;
+    }
+    public String getNombre() {
+        return nombre;
+    }
+    public void setNombre(String nombre) {
+        this.nombre = nombre;
+    }
+    public int getEdad() {
+        return edad;
+    }
+    public void setEdad(int edad) {
+        this.edad = edad;
+    }
+
+    protected clsPersona(Parcel in) {
+        mail = in.readString();
+        nombre = in.readString();
+        edad = in.readInt();
+        if (in.readByte() == 0x01) {
+            amigos = new ArrayList<clsPersona>();
+            in.readList(amigos, clsPersona.class.getClassLoader());
+        } else {
+            amigos = null;
+        }
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeString(mail);
+        dest.writeString(nombre);
+        dest.writeInt(edad);
+        if (amigos == null) {
+            dest.writeByte((byte) (0x00));
+        } else {
+            dest.writeByte((byte) (0x01));
+            dest.writeList(amigos);
+        }
+    }
+
+    @SuppressWarnings("unused")
+    public static final Parcelable.Creator<clsPersona> CREATOR = new
+            Parcelable.Creator<clsPersona>() {
+                @Override
+                public clsPersona createFromParcel(Parcel in) {
+                    return new clsPersona(in);
+                }
+                @Override
+                public clsPersona[] newArray(int size) {
+                    return new clsPersona[size];
+                }
+            };
+}
