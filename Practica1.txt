@@ -1,0 +1,279 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".MainActivity">
+
+
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:orientation="vertical">
+
+        <TextView
+            android:layout_marginTop="30dp"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:textSize="16dp"
+            android:textColor="#D32F2F"
+            android:typeface="sans"
+            android:text="Primer número" />
+
+        <EditText
+            android:id="@+id/numero1"
+            android:hint="numero 1"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inputType="phone">
+            <requestFocus/>
+        </EditText>
+        <TextView
+            android:layout_marginTop="15dp"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:textSize="16dp"
+            android:textColor="#288821"
+            android:typeface="sans"
+            android:text="Segundo número"/>
+
+        <EditText
+            android:id="@+id/numero2"
+            android:hint="numero 2"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inputType="phone" />
+
+        <TextView
+            android:id="@+id/resultado"
+            android:layout_width="fill_parent"
+            android:layout_height="144dp"
+            android:layout_marginTop="30dp"
+            android:text=""
+            android:textSize="25dp" />
+
+        <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:orientation="horizontal">
+
+            <Button
+                android:id="@+id/btnSuma"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="Sumar"/>
+
+            <Button
+                android:id="@+id/btnResta"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="Restar"/>
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+            <Button
+                android:id="@+id/btnMulti"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="Multiplicar"/>
+            <Button
+                android:id="@+id/btnDivision"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="Dividir"/>
+        </LinearLayout>
+
+    </LinearLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>
+
+/***************************************************** Clases ****************************************************/
+ARITMETICA
+
+public class aritmetica {
+    //Atributos
+    private int n1;
+    private int n2;
+
+    //Metodos
+
+    //Constructor
+    public aritmetica(int n1, int n2) {
+        this.n1 = n1;
+        this.n2 = n2;
+    }
+
+    //Contructor por defecto
+    public aritmetica() {
+        this.n1 = 0;
+        this.n2 = 0;
+    }
+
+    //Constructor por objeto
+    public aritmetica(aritmetica objeto) {
+        this.n1 = objeto.n1;
+        this.n2 = objeto.n2;
+    }
+
+    //Get()
+    public int getN1() {
+        return n1;
+    }
+
+    public int getN2() {
+        return n2;
+    }
+
+    //Set()
+    public void setN1(int n1) {
+        this.n1 = n1;
+    }
+
+    public void setN2(int n2) {
+        this.n2 = n2;
+    }
+
+    //Sobrecarga - Redefinicion de metodos
+    @Override
+    public String toString() {
+        return "aritmetica{" +
+                "n1=" + n1 +
+                ", n2=" + n2 +
+                '}';
+    }
+
+    public int suma(){
+        return n1+n2;
+    }
+
+    public int resta(){
+        return n1-n2;
+    }
+
+    public int multiplicacion(){
+        return n1*n2;
+    }
+
+    public int division(){
+        return n1/n2;
+    }
+}
+
+
+
+
+CALCULA
+
+import android.os.Bundle;
+import androidx.appcompat.app.AppCompatActivity;
+import android.view.View;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.TextView;
+import android.widget.Toast;
+
+public class calcula extends AppCompatActivity {
+    @Override
+    protected void onCreate (Bundle savedInstanceState){
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main);
+
+        final TextView txtResultado = (TextView)findViewById(R.id.resultado);
+        final EditText edtNumero1 = (EditText)findViewById(R.id.numero1);
+        final EditText edtNumero2 = (EditText)findViewById(R.id.numero2);
+        Button btnSuma = (Button)findViewById(R.id.btnSuma);
+        Button btnResta = (Button)findViewById(R.id.btnResta);
+        Button btnMulti = (Button)findViewById(R.id.btnMulti);
+        Button btnDiv = (Button)findViewById(R.id.btnDivision);
+
+        btnSuma.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String strnumero1 = edtNumero1.getText().toString();
+                String strnumero2 = edtNumero2.getText().toString();
+
+                if(strnumero1.equals("") || strnumero2.equals(""))
+                {
+                    Toast.makeText(getApplicationContext(),"Introduzca ambos número", Toast.LENGTH_LONG).show();
+                    return;
+                }
+
+                int numero1 = Integer.parseInt(strnumero1);
+                int numero2 = Integer.parseInt(strnumero2);
+                aritmetica suma = new aritmetica(numero1,numero2);
+
+                txtResultado.setText("Suma: " + String.valueOf(suma.suma()));
+                //txtResultado.setText("Resultado: " + String.valueOf(numero1+numero2));
+            }
+        });
+
+        btnResta.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String strnumero1 = edtNumero1.getText().toString();
+                String strnumero2 = edtNumero2.getText().toString();
+
+                if(strnumero1.equals("") || strnumero2.equals("")){
+                    Toast.makeText(getApplicationContext(),"Introduza ambos número", Toast.LENGTH_LONG).show();
+                    return;
+                }
+
+                int numero1 = Integer.parseInt(strnumero1);
+                int numero2 = Integer.parseInt(strnumero2);
+                aritmetica resta = new aritmetica(numero1,numero2);
+
+                txtResultado.setText("Resta: " + String.valueOf(resta.resta()));
+                //txtResultado.setText("Resultado: "+String.valueOf(numero1-numero2));
+            }
+        });
+
+        btnMulti.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String strnumero1 = edtNumero1.getText().toString();
+                String strnumero2 = edtNumero2.getText().toString();
+
+                if(strnumero1.equals("") || strnumero2.equals("")){
+                    Toast.makeText(getApplicationContext(),"Introduza ambos número", Toast.LENGTH_LONG).show();
+                    return;
+                }
+
+                int numero1 = Integer.parseInt(strnumero1);
+                int numero2 = Integer.parseInt(strnumero2);
+                aritmetica mul = new aritmetica(numero1,numero2);
+
+                txtResultado.setText("Multiplicación: " + String.valueOf(mul.multiplicacion()));
+                //txtResultado.setText("Resultado: "+String.valueOf(numero1*numero2));
+            }
+        });
+
+        btnDiv.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String strnumero1 = edtNumero1.getText().toString();
+                String strnumero2 = edtNumero2.getText().toString();
+
+                if(strnumero1.equals("") || strnumero2.equals("")){
+                    Toast.makeText(getApplicationContext(),"Introduza ambos número", Toast.LENGTH_LONG).show();
+                    return;
+                }
+
+                int numero1 = Integer.parseInt(strnumero1);
+                int numero2 = Integer.parseInt(strnumero2);
+                aritmetica div = new aritmetica(numero1,numero2);
+
+                txtResultado.setText("División: " + String.valueOf(div.division()));
+                //txtResultado.setText("Resultado: "+String.valueOf(numero1/numero2));
+            }
+        });
+    }
+}
+
